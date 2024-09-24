@@ -1,0 +1,16 @@
+defaults:
+  - blank_ratio: 25-75
+  - dataset: config
+  - model: additive
+  - settings: config
+  - _self_
+
+hydra:
+  job:
+    chdir: true
+  sweep:
+    subdir: ${hydra.job.override_dirname}
+
+path: model_weights.pth
+use_cuda: true
+seed: 0
