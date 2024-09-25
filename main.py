@@ -90,7 +90,7 @@ def main(cfg: DictConfig):
         model.cuda()
 
     loss_fn = torch.nn.CrossEntropyLoss()
-    optimizer = optim.Adam(model.parameters(), lr=cfg.settings.lr, betas=(0.9, 0.999), weight_decay=cfg.settings.reg)
+    optimizer = optim.Adam(model.parameters(), lr=cfg.lr, betas=(0.9, 0.999), weight_decay=cfg.reg)
     early_stopping = EarlyStopping(patience=cfg.settings.patience, delta=cfg.settings.delta, path=cfg.path)
 
     print('Start Training')
