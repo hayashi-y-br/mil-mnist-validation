@@ -1,7 +1,7 @@
 root: ${hydra:runtime.cwd}/data
-train_size: 800
-valid_size: 200
-test_size: 200
+train_size: 4000
+valid_size: 1000
+test_size: 1000
 train_seed: 0
 valid_seed: 1
 test_seed: 2
