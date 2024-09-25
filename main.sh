@@ -2,7 +2,9 @@
 #$ -cwd
 #$ -l gpu_h=1
 #$ -l h_rt=12:00:00
-#$ -N numbers012-seed0
+#$ -N n012s0
+#$ -o n012s0_stdout.txt
+#$ -e n012s0_stderr.txt
 
 eval "$(/apps/t4/rhel9/free/miniconda/24.1.2/bin/conda shell.bash hook)"
 conda activate mil
