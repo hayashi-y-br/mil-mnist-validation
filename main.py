@@ -178,6 +178,7 @@ def main(cfg: DictConfig):
             y_list.append(y)
             y_hat_list.append(y_hat)
 
+            """
             if i < num_classes * 10:
                 X = X.detach().cpu()[0]
                 A = score[0].detach().cpu()[0]
@@ -188,6 +189,7 @@ def main(cfg: DictConfig):
                     P = torch.transpose(P, 1, 0)
                     for j in range(num_classes):
                         save_score(P[j], filename=f'score_{i % num_classes}_{i // num_classes}_{j}.csv', nrow=int(np.sqrt(cfg.dataset.bag_size)))
+            """
     test_loss /= len(test_loader)
     test_accuracy /= len(test_loader)
     np.savetxt('test_loss.csv', [test_loss], delimiter=',')
