@@ -1,7 +1,7 @@
 defaults:
   - blank_ratio: 25-75
   - dataset: '012'
-  - model: attention
+  - model: additive
   - settings: config
   - _self_
 
