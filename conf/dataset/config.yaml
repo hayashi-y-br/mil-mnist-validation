@@ -1,4 +1,4 @@
-root: ${hydra:runtime.cwd}/data
+root: /home/6/uf02776/data
 train_size: 4000
 valid_size: 1000
 test_size: 1000
