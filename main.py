@@ -62,6 +62,7 @@ def main(cfg: DictConfig):
 
     print('Load Train, Validation and Test Set')
     loader_kwargs = {'num_workers': 1, 'pin_memory': True} if cfg.use_cuda else {}
+    """
     train_loader = torch.utils.data.DataLoader(
         MyDataset(train=True, valid=False, **cfg.dataset),
         batch_size=cfg.settings.batch_size,
@@ -74,6 +75,7 @@ def main(cfg: DictConfig):
         shuffle=False,
         **loader_kwargs
     )
+    """
     test_loader = torch.utils.data.DataLoader(
         MyDataset(train=False, valid=False, **cfg.dataset),
         batch_size=1,
@@ -93,6 +95,7 @@ def main(cfg: DictConfig):
     optimizer = optim.Adam(model.parameters(), lr=cfg.lr, betas=(0.9, 0.999), weight_decay=cfg.reg)
     early_stopping = EarlyStopping(patience=cfg.settings.patience, delta=cfg.settings.delta, path=cfg.path)
 
+    """
     print('Start Training')
     train_loss_list = []
     train_accuracy_list = []
@@ -153,12 +156,16 @@ def main(cfg: DictConfig):
     np.savetxt('train_accuracy.csv', train_accuracy, delimiter=',')
     np.savetxt('validation_loss.csv', valid_loss, delimiter=',')
     np.savetxt('validation_accuracy.csv', valid_accuracy, delimiter=',')
+    """
 
     print('Start Testing')
     y_list = []
     y_hat_list = []
-    model.load_state_dict(torch.load(cfg.path, weights_only=True))
+    numbers = ''.join([f'{i:1d}' for i in cfg.dataset.target_numbers])
+    path = f'{cfg.path}/{cfg.model.name}/{numbers}/model_weights.pth'
+    model.load_state_dict(torch.load(path, weights_only=True))
     model.eval()
+    print(path)
     test_loss = 0.
     test_accuracy = 0.
     with torch.no_grad():
@@ -178,7 +185,6 @@ def main(cfg: DictConfig):
             y_list.append(y)
             y_hat_list.append(y_hat)
 
-            """
             if i < num_classes * 10:
                 X = X.detach().cpu()[0]
                 A = score[0].detach().cpu()[0]
@@ -189,7 +195,6 @@ def main(cfg: DictConfig):
                     P = torch.transpose(P, 1, 0)
                     for j in range(num_classes):
                         save_score(P[j], filename=f'score_{i % num_classes}_{i // num_classes}_{j}.csv', nrow=int(np.sqrt(cfg.dataset.bag_size)))
-            """
     test_loss /= len(test_loader)
     test_accuracy /= len(test_loader)
     np.savetxt('test_loss.csv', [test_loss], delimiter=',')
