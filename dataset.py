@@ -78,7 +78,8 @@ class MyDataset(Dataset):
                 else:
                     num_target[label] = self.bag_size - num_target[0]
             self.X_indices.append(np.concatenate(
-                [self.class_indices[self.target_numbers[i]][self.rng.integers(self.class_indices[self.target_numbers[i]].size, size=num_target[i])] for i in [2, 0, 1]]
+                [self.class_indices[self.target_numbers[i]][list(torch.zeros(num_target[i], dtype=int))] for i in [2, 0, 1]]
+                # [self.class_indices[self.target_numbers[i]][self.rng.integers(self.class_indices[self.target_numbers[i]].size, size=num_target[i])] for i in [2, 0, 1]]
             ))
             self.y.append(label)
 
@@ -94,7 +95,7 @@ if __name__ == '__main__':
     import matplotlib.pyplot as plt
 
 
-    for split in ['train', 'valid', 'test']:
+    for split in ['test']: # for split in ['train', 'valid', 'test']:
         dataset = MyDataset() if split == 'train' else MyDataset(valid=True) if split == 'valid' else MyDataset(train=False)
         for i, (X, y) in enumerate(dataset):
             img = make_grid(X, nrow=4, padding=0)[0]
@@ -103,5 +104,5 @@ if __name__ == '__main__':
             fig.subplots_adjust(left=0, right=1, bottom=0, top=1)
             ax.axis('off')
             ax.imshow(img, cmap='gray')
-            fig.savefig(f'./dataset/{split}/{i}')
+            fig.savefig(f'./tmp/{i}') # fig.savefig(f'./dataset/{split}/{i}')
             plt.close(fig)
